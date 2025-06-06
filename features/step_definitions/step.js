@@ -57,7 +57,6 @@ When("the user views the cart page", async function () {
 });
 
 When("the user remove item to the cart", async function () {
-  // Pastikan sudah di halaman cart
   const cartIcon = await driver.findElement(By.className("shopping_cart_link"));
   await cartIcon.click();
 
@@ -124,25 +123,22 @@ Then("the user should see a failed message", async function () {
 
 
 Then("item should be seen in the item page", async function () {
-  // KLIK ikon cart dulu agar ke halaman cart
   const cartIcon = await driver.findElement(By.className("shopping_cart_link"));
   await cartIcon.click();
 
-  // Tunggu elemen cart muncul
   const cartItem = await driver.wait(
     until.elementLocated(By.className("cart_item")),
     8000
   );
   expect(cartItem).to.exist;
 
-  // Verifikasi nama item
+
   const itemName = await driver.findElement(By.className("inventory_item_name")).getText();
   expect(itemName).to.equal("Sauce Labs Backpack");
 
-  // Lanjut ke halaman produk
+
   await driver.findElement(By.id("continue-shopping")).click();
 
-  // Pastikan badge cart = 1
   const cartBadge = await driver.findElement(By.className("shopping_cart_badge")).getText();
   expect(cartBadge).to.equal("1");
 });
@@ -150,14 +146,11 @@ Then("item should be seen in the item page", async function () {
 
 
 Then("item shouldn't be seen in the item page", async function () {
-  // Pastikan berada di halaman cart
   const cartIcon = await driver.findElement(By.className("shopping_cart_link"));
   await cartIcon.click();
 
-  // Cari semua elemen dengan class "cart_item"
   const cartItems = await driver.findElements(By.className("cart_item"));
 
-  // Jika item sudah dihapus, array-nya harus kosong
   expect(cartItems.length).to.equal(0);
 });
 
